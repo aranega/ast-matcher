@@ -6,9 +6,9 @@ AST matcher for Pharo AST
 
 ```smalltalk
 Metacello new
-	baseline: 'AST-Matcher';
-	repository: 'github://aranega/ast-matcher';
-	load
+   baseline: 'ASTMatcher';
+   repository: 'github://aranega/ast-matcher:main';
+   load
 ```
 
 ## Usage (will evolve, change)
