@@ -54,7 +54,7 @@ MatcherVisitor >> visitReturnNode: aReturnNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitSequenceNode: aSequenceNode [
-	^ aSequenceNode collect: [ :each | each acceptVisitor: self ].
+	^ aSequenceNode statements collect: [ :each | each acceptVisitor: self ].
 ]
 
 { #category : #visiting }
