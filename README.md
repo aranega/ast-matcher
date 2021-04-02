@@ -6,8 +6,8 @@ AST matcher for Pharo AST
 
 ```smalltalk
 Metacello new
-	baseline: 'ReflexiveAST';
-	repository: 'github://aranega/reflexive-ast';
+	baseline: 'AST-Matcher';
+	repository: 'github://aranega/ast-matcher';
 	load
 ```
 
