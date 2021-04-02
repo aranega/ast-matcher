@@ -1,6 +1,6 @@
 Class {
 	#name : #BaselineOfASTMatcher,
-	#superclass : #Object,
+	#superclass : #BaselineOf,
 	#category : #BaselineOfASTMatcher
 }
 
