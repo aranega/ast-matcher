@@ -15,6 +15,11 @@ Matcher >> asMatcher [
 ]
 
 { #category : #accessing }
+Matcher >> isStarMatcher [
+	^ false
+]
+
+{ #category : #accessing }
 Matcher >> match: aValue [
 	| result |
 	result := MatcherResult new.
@@ -23,6 +28,6 @@ Matcher >> match: aValue [
 ]
 
 { #category : #accessing }
-Matcher >> match: aValue withContext: context [
+Matcher >> match: aValue withContext: aContext [
 	self subclassResponsibility 
 ]

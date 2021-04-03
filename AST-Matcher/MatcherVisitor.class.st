@@ -1,16 +1,8 @@
 Class {
 	#name : #MatcherVisitor,
 	#superclass : #RBProgramNodeVisitor,
-	#instVars : [
-		'left'
-	],
 	#category : #'AST-Matcher'
 }
-
-{ #category : #visiting }
-MatcherVisitor >> left: aMatcher [
-	left := aMatcher
-]
 
 { #category : #visiting }
 MatcherVisitor >> visitAssignmentNode: anAssignmentNode [
@@ -32,7 +24,9 @@ MatcherVisitor >> visitBlockNode: aBlockNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitLiteralNode: aNode [
-	^ aNode value asMatcher
+	aNode value isSymbol
+		ifTrue: [ ^ aNode value asMatcher ].
+	^ LiteralMatcher v: aNode value
 ]
 
 { #category : #visiting }
@@ -54,10 +48,20 @@ MatcherVisitor >> visitReturnNode: aReturnNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitSequenceNode: aSequenceNode [
-	^ aSequenceNode statements collect: [ :each | each acceptVisitor: self ].
+	"^ aSequenceNode statements
+		collect: [ :each | each acceptVisitor: self ]"
+	^ SequenceMatcher matchers: (aSequenceNode statements
+		collect: [ :each | each acceptVisitor: self ])
+	
 ]
 
 { #category : #visiting }
 MatcherVisitor >> visitVariableNode: aVarNode [
-	^ VariableMatcher v: aVarNode name 
+	| varname |
+	varname := aVarNode name.
+	(varname = '_')
+		ifTrue: [ ^ DiscardMatcher new ].
+	(varname beginsWith: '_')
+		ifTrue: [ ^ NodeMatcher name: varname allButFirst asSymbol ].
+	^ VariableMatcher v: varname
 ]

@@ -4,6 +4,8 @@ Extension { #name : #Symbol }
 Symbol >> asMatcher [
 	(self beginsWith: #@*)
 		ifTrue: [ ^ NodeMatcher name: self ].
+	(self beginsWith: #*)
+		ifTrue: [ ^ StarMatcher name: self allButFirst asSymbol  ].
 	self = #@%
 		ifTrue: [ ^ DiscardMatcher new ].
 	self = #_
