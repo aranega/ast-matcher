@@ -32,7 +32,7 @@ MatcherVisitor >> visitBlockNode: aBlockNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitLiteralNode: aNode [
-	^ NodeMatcher name: aNode value
+	^ aNode value asMatcher
 ]
 
 { #category : #visiting }

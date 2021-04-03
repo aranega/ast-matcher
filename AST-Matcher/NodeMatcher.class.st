@@ -2,9 +2,7 @@ Class {
 	#name : #NodeMatcher,
 	#superclass : #Matcher,
 	#instVars : [
-		'matchedValue',
-		'name',
-		'node'
+		'name'
 	],
 	#category : #'AST-Matcher'
 }
@@ -16,7 +14,11 @@ NodeMatcher class >> name: aName [
 
 { #category : #accessing }
 NodeMatcher >> match: aValue withContext: aContext [
-	node := aContext at: name ifAbsent: [ aContext at: name put: aValue. ^ true ].
+	| node |
+	node := aContext
+		at: name
+		ifAbsent: [ aContext at: name put: aValue.
+			^ true ].
 	^ node = aValue
 ]
 
