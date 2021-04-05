@@ -20,9 +20,9 @@ LiteralMatcher >> literal: aLiteral [
 { #category : #accessing }
 LiteralMatcher >> match: aValue withContext: aContext [
 	| value |
-	value := aValue isLiteralNode
-		ifTrue: [ aValue value ]
-		ifFalse: [ aValue ].
+	value := aValue isLiteral
+		ifTrue: [ aValue ]
+		ifFalse: [ aValue value ].
 	^ value = matchValue
 ]
 

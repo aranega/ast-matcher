@@ -11,7 +11,7 @@ MatcherVisitor >> visitAssignmentNode: anAssignmentNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitBinaryMessage: binaryMessage [
-	^ BinopMatcher
+	^ BinaryMessageMatcher
 		op: binaryMessage selector asMatcher
 		left: (binaryMessage receiver acceptVisitor: self)
 		right: ((binaryMessage arguments at: 1) acceptVisitor: self)
@@ -30,9 +30,16 @@ MatcherVisitor >> visitKeywordMessage: aMessageNode [
 ]
 
 { #category : #visiting }
+MatcherVisitor >> visitLiteralArrayNode: aNode [
+	^ ArrayMatcher
+		matchers: (aNode value collect: [ :each | each asMatcher ])
+]
+
+{ #category : #visiting }
 MatcherVisitor >> visitLiteralNode: aNode [
 	aNode value isSymbol
 		ifTrue: [ ^ aNode value asMatcher ].
+	
 	^ LiteralMatcher v: aNode value
 ]
 
@@ -40,9 +47,10 @@ MatcherVisitor >> visitLiteralNode: aNode [
 MatcherVisitor >> visitMessageNode: aMessageNode [
 	aMessageNode isBinary
 		ifTrue: [ ^ self visitBinaryMessage: aMessageNode ].
-	aMessageNode isKeyword 
-		ifTrue: [ ^ self visitKeywordMessage: aMessageNode  ].
-	self halt
+	aMessageNode isKeyword
+		ifTrue: [ ^ self visitKeywordMessage: aMessageNode ].
+	aMessageNode isUnary
+		ifTrue: [ ^ self visitUnaryMessage: aMessageNode ].
 ]
 
 { #category : #visiting }
@@ -62,6 +70,13 @@ MatcherVisitor >> visitSequenceNode: aSequenceNode [
 	^ SequenceMatcher matchers: (aSequenceNode statements
 		collect: [ :each | each acceptVisitor: self ])
 	
+]
+
+{ #category : #visiting }
+MatcherVisitor >> visitUnaryMessage: aMessageNode [
+	^ UnaryMessageMatcher 
+		selector: aMessageNode selector asMatcher
+		receiver: (aMessageNode receiver acceptVisitor: self)
 ]
 
 { #category : #visiting }

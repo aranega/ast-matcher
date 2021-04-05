@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 Matcher >> + aMatcher [
-	^ BinopMatcher op: #+ left: self right: aMatcher
+	^ BinaryMessageMatcher op: #+ left: self right: aMatcher
 ]
 
 { #category : #accessing }

@@ -1,5 +1,5 @@
 Class {
-	#name : #BinopMatcher,
+	#name : #BinaryMessageMatcher,
 	#superclass : #Matcher,
 	#instVars : [
 		'left',
@@ -10,7 +10,7 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
-BinopMatcher class >> op: opMatcher left: leftMatcher right: rightMatcher [
+BinaryMessageMatcher class >> op: opMatcher left: leftMatcher right: rightMatcher [
 	| matcher |
 	matcher := self new op: opMatcher.
 	matcher left: leftMatcher.
@@ -19,12 +19,12 @@ BinopMatcher class >> op: opMatcher left: leftMatcher right: rightMatcher [
 ]
 
 { #category : #'as yet unclassified' }
-BinopMatcher >> left: aMatcher [ 
+BinaryMessageMatcher >> left: aMatcher [ 
 	left := aMatcher
 ]
 
 { #category : #'key matching' }
-BinopMatcher >> match: aValue withContext: aContext [
+BinaryMessageMatcher >> match: aValue withContext: aContext [
 	^ aValue class = RBMessageNode
 		and: [ aValue isBinary
 				and: [ (operator match: aValue selector withContext: aContext)
@@ -33,16 +33,16 @@ BinopMatcher >> match: aValue withContext: aContext [
 ]
 
 { #category : #'key matching' }
-BinopMatcher >> matchValue: aValue [
+BinaryMessageMatcher >> matchValue: aValue [
 	operator := aValue
 ]
 
 { #category : #'key matching' }
-BinopMatcher >> op: aMatcher [
+BinaryMessageMatcher >> op: aMatcher [
 	operator := aMatcher	
 ]
 
 { #category : #'as yet unclassified' }
-BinopMatcher >> right: aMatcher [ 
+BinaryMessageMatcher >> right: aMatcher [ 
 	right := aMatcher
 ]
