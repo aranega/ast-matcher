@@ -22,9 +22,14 @@ SequenceMatcher >> match: aValue withContext: context [
 	| sequenceSize sizeOfStarMatcher matcherArray starMatcher index newMatchers |
 	sequenceSize := aValue statements size.
 	sizeOfStarMatcher := sequenceSize
-		- (matchers select: [ :matcher | matcher isStarMatcher not ]) size.
-	starMatcher := (matchers select: [ :matcher | matcher isStarMatcher ])
-		first.
+		- (matchers reject: [ :matcher | matcher isStarMatcher ]) size.
+	starMatcher := (matchers select: [ :matcher | matcher isStarMatcher ]).
+	starMatcher ifEmpty: [ ^ (1 to: sequenceSize)
+		allSatisfy: [ :i | 
+			(matchers at: i)
+				match: (aValue statements at: i)
+				withContext: context ]  ].
+	starMatcher := starMatcher first.
 	matcherArray := Array new: sizeOfStarMatcher.
 	1 to: sizeOfStarMatcher do: [ :i | matcherArray at: i put: starMatcher ].
 	index := matchers indexOf: starMatcher.
@@ -32,7 +37,11 @@ SequenceMatcher >> match: aValue withContext: context [
 		copyReplaceFrom: index
 		to: index
 		with: matcherArray.
-	^ (aValue statements withIndexCollect: [ :stmt :i | (newMatchers at: i) match: stmt withContext: context ]) allSatisfy: [ :each | each = true ]
+	^ (1 to: sequenceSize)
+		allSatisfy: [ :i | 
+			(newMatchers at: i)
+				match: (aValue statements at: i)
+				withContext: context ]
 ]
 
 { #category : #accessing }

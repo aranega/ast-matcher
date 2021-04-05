@@ -23,6 +23,13 @@ MatcherVisitor >> visitBlockNode: aBlockNode [
 ]
 
 { #category : #visiting }
+MatcherVisitor >> visitKeywordMessage: aMessageNode [
+	^ KeywordMessageMatcher selector: (aMessageNode selector asMatcher)
+	receiver: (aMessageNode receiver acceptVisitor: self)
+	arguments: (aMessageNode arguments collect: [:arg | arg acceptVisitor: self])
+]
+
+{ #category : #visiting }
 MatcherVisitor >> visitLiteralNode: aNode [
 	aNode value isSymbol
 		ifTrue: [ ^ aNode value asMatcher ].
@@ -33,6 +40,8 @@ MatcherVisitor >> visitLiteralNode: aNode [
 MatcherVisitor >> visitMessageNode: aMessageNode [
 	aMessageNode isBinary
 		ifTrue: [ ^ self visitBinaryMessage: aMessageNode ].
+	aMessageNode isKeyword 
+		ifTrue: [ ^ self visitKeywordMessage: aMessageNode  ].
 	self halt
 ]
 
