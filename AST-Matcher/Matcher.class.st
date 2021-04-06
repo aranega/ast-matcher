@@ -15,6 +15,10 @@ Matcher >> asMatcher [
 ]
 
 { #category : #accessing }
+Matcher >> condition: ablock [
+]
+
+{ #category : #accessing }
 Matcher >> isStarMatcher [
 	^ false
 ]
@@ -30,4 +34,10 @@ Matcher >> match: aValue [
 { #category : #accessing }
 Matcher >> match: aValue withContext: aContext [
 	self subclassResponsibility 
+]
+
+{ #category : #accessing }
+Matcher >> matchValidate: aValue withContext: result [
+
+	^ 4
 ]

@@ -18,7 +18,7 @@ UnaryMessageMatcher class >> selector: selectorMatcher receiver: receiverMatcher
 { #category : #accessing }
 UnaryMessageMatcher >> match: aValue withContext: aContext [
 	^ aValue class = RBMessageNode
-		and: [ aValue isKeyword
+		and: [ aValue isUnary
 				and: [(selectorMatcher match: aValue selector withContext: aContext)
 								and: [ (receiverMatcher match: aValue receiver withContext: aContext)
 									 ] ] ]  

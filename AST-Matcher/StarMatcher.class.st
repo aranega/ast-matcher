@@ -2,7 +2,8 @@ Class {
 	#name : #StarMatcher,
 	#superclass : #Matcher,
 	#instVars : [
-		'name'
+		'name',
+		'condition'
 	],
 	#category : #'AST-Matcher'
 }
@@ -13,6 +14,11 @@ StarMatcher class >> name: aMatcher [
 ]
 
 { #category : #accessing }
+StarMatcher >> condition: aBlock [
+	condition := aBlock
+]
+
+{ #category : #accessing }
 StarMatcher >> isStarMatcher [ 
 	^ true
 ]
@@ -20,10 +26,9 @@ StarMatcher >> isStarMatcher [
 { #category : #accessing }
 StarMatcher >> match: aValue withContext: context [
 	| node |
-	node := context
-		at: name
-		ifAbsentPut: [ OrderedCollection new ].
+	node := context at: name ifAbsentPut: [ OrderedCollection new ].
 	node add: aValue.
+	
 	^ true
 ]
 

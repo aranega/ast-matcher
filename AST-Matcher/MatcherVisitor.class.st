@@ -1,8 +1,16 @@
 Class {
 	#name : #MatcherVisitor,
 	#superclass : #RBProgramNodeVisitor,
+	#instVars : [
+		'condition'
+	],
 	#category : #'AST-Matcher'
 }
+
+{ #category : #accessing }
+MatcherVisitor >> condition: anObject [
+	condition := anObject
+]
 
 { #category : #visiting }
 MatcherVisitor >> visitAssignmentNode: anAssignmentNode [
@@ -32,14 +40,23 @@ MatcherVisitor >> visitKeywordMessage: aMessageNode [
 { #category : #visiting }
 MatcherVisitor >> visitLiteralArrayNode: aNode [
 	^ ArrayMatcher
-		matchers: (aNode value collect: [ :each | each asMatcher ])
+		matchers:
+			(aNode value
+				collect: [ :each | 
+					| matcher |
+					matcher := each asMatcher.
+					matcher condition: condition.
+					matcher ])
 ]
 
 { #category : #visiting }
 MatcherVisitor >> visitLiteralNode: aNode [
 	aNode value isSymbol
-		ifTrue: [ ^ aNode value asMatcher ].
-	
+		ifTrue: [ 
+			| matcher |
+					matcher := aNode value asMatcher.
+					matcher condition: condition.
+					^ matcher].
 	^ LiteralMatcher v: aNode value
 ]
 
@@ -67,9 +84,11 @@ MatcherVisitor >> visitReturnNode: aReturnNode [
 MatcherVisitor >> visitSequenceNode: aSequenceNode [
 	"^ aSequenceNode statements
 		collect: [ :each | each acceptVisitor: self ]"
-	^ SequenceMatcher matchers: (aSequenceNode statements
-		collect: [ :each | each acceptVisitor: self ])
-	
+
+	^ (SequenceMatcher
+		matchers:
+			(aSequenceNode statements
+				collect: [ :each | each acceptVisitor: self ])) condition: condition
 ]
 
 { #category : #visiting }
@@ -83,9 +102,11 @@ MatcherVisitor >> visitUnaryMessage: aMessageNode [
 MatcherVisitor >> visitVariableNode: aVarNode [
 	| varname |
 	varname := aVarNode name.
-	(varname = '_')
+	varname = '_'
 		ifTrue: [ ^ DiscardMatcher new ].
 	(varname beginsWith: '_')
-		ifTrue: [ ^ NodeMatcher name: varname allButFirst asSymbol ].
+		ifTrue: [ ^ (NodeMatcher
+				name: varname allButFirst asSymbol)
+				condition: condition ].
 	^ VariableMatcher v: varname
 ]

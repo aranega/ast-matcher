@@ -8,6 +8,11 @@ Class {
 	#category : #'AST-Matcher'
 }
 
+{ #category : #accessing }
+MatcherResult >> at: index [ 
+	^ context at: index 
+]
+
 { #category : #'as yet unclassified' }
 MatcherResult >> at: aString ifAbsent: aBlockClosure [ 
 	^ context at: aString ifAbsent: aBlockClosure 
