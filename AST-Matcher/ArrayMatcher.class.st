@@ -29,6 +29,8 @@ ArrayMatcher >> match: aValue withContext: context [
 	sequenceSize := aValue value size.
 	sizeOfStarMatcher := sequenceSize
 		- (matchers reject: [ :matcher | matcher isStarMatcher ]) size.
+		sizeOfStarMatcher < 0
+		ifTrue: [ ^ false ].
 	starMatcher := matchers select: [ :matcher | matcher isStarMatcher ].
 	starMatcher
 		ifEmpty: [ res := (1 to: sequenceSize)
@@ -47,12 +49,12 @@ ArrayMatcher >> match: aValue withContext: context [
 		to: index
 		with: matcherArray.
 	res := (1 to: sequenceSize)
-				allSatisfy:
-					[ :i | (newMatchers at: i) match: (aValue value at: i) withContext: context ].
-			res
-				and: [ condition
-						ifNotNil: [ ^ condition valueWithArgumentsDictionary: context ] ].
-			^ res
+		allSatisfy:
+			[ :i | (newMatchers at: i) match: (aValue value at: i) withContext: context ].
+	res
+		and: [ condition
+				ifNotNil: [ ^ condition valueWithArgumentsDictionary: context ] ].
+	^ res
 ]
 
 { #category : #accessing }

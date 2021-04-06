@@ -30,6 +30,7 @@ SequenceMatcher >> match: aValue withContext: context [
 	sequenceSize := aValue statements size.
 	sizeOfStarMatcher := sequenceSize
 		- (matchers reject: [ :matcher | matcher isStarMatcher ]) size.
+	(sizeOfStarMatcher < 0) ifTrue: [ ^ false ].
 	starMatcher := matchers select: [ :matcher | matcher isStarMatcher ].
 	starMatcher
 		ifEmpty: [ 
