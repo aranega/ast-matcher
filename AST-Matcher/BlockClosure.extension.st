@@ -1,6 +1,11 @@
 Extension { #name : #BlockClosure }
 
 { #category : #'*AST-Matcher' }
+BlockClosure >> => aProduction [
+	^ MatchProduceRule match: self matcher produce: aProduction
+]
+
+{ #category : #'*AST-Matcher' }
 BlockClosure >> matcher [
 	^ self matcherWith: nil
 ]

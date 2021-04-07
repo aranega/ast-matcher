@@ -41,3 +41,8 @@ Matcher >> matchValidate: aValue withContext: result [
 
 	^ 4
 ]
+
+{ #category : #accessing }
+Matcher >> matcher [
+	^ self
+]

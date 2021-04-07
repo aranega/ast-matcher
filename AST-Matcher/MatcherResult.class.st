@@ -50,6 +50,11 @@ MatcherResult >> isPartial [
 ]
 
 { #category : #accessing }
+MatcherResult >> matchedVariables [
+	^ context
+]
+
+{ #category : #accessing }
 MatcherResult >> printString [
 	^ '{1}(match? {2}, matched={3})'
 		format:
