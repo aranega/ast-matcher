@@ -33,7 +33,8 @@ SequenceMatcher >> match: aValue withContext: context [
 	(sizeOfStarMatcher < 0) ifTrue: [ ^ false ].
 	starMatcher := matchers select: [ :matcher | matcher isStarMatcher ].
 	starMatcher
-		ifEmpty: [ 
+		ifEmpty: [
+			sequenceSize ~= matchers size ifTrue: [ ^ false ].
 			res := (1 to: sequenceSize)
 				allSatisfy:
 					[ :i | (matchers at: i) match: (aValue statements at: i) withContext: context ].
@@ -49,6 +50,7 @@ SequenceMatcher >> match: aValue withContext: context [
 		copyReplaceFrom: index
 		to: index
 		with: matcherArray.
+	sequenceSize ~= newMatchers size ifTrue: [ ^ false ].
 	res := (1 to: sequenceSize)
 				allSatisfy:
 					[ :i | (newMatchers at: i) match: (aValue statements at: i) withContext: context ].
