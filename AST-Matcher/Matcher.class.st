@@ -10,12 +10,27 @@ Matcher >> + aMatcher [
 ]
 
 { #category : #accessing }
+Matcher >> => produceRule [
+	^ MatchProduceRule match: self produce: produceRule
+]
+
+{ #category : #accessing }
 Matcher >> asMatcher [
 	^ self
 ]
 
 { #category : #accessing }
 Matcher >> condition: ablock [
+]
+
+{ #category : #accessing }
+Matcher >> isNodeMatcher [
+	^ false
+]
+
+{ #category : #accessing }
+Matcher >> isSequenceMatcher [
+	^ false
 ]
 
 { #category : #accessing }

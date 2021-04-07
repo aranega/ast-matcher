@@ -52,8 +52,9 @@ MatchProduceRule >> next: aMatchProduceRule [
 
 { #category : #accessing }
 MatchProduceRule >> oneInstruction [
-	matcher := matcher at: 1.
-	
+	matcher := matcher isSequenceMatcher
+		ifTrue: [ matcher at: 1 ]
+		ifFalse: [ matcher ]
 ]
 
 { #category : #accessing }

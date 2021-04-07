@@ -27,10 +27,10 @@ AssignMatcher >> left: aMatcher [
 
 { #category : #initialization }
 AssignMatcher >> match: aValue withContext: aContext [
+aValue ifNil: [ ^ false ].
 	^ aValue isAssignment
-		and: [ (left match: aValue variable withContext: aContext) and: [
-				right match: aValue value withContext: aContext
-				] ]
+		and: [ (left match: aValue variable withContext: aContext)
+				and: [ right match: aValue value withContext: aContext ] ]
 ]
 
 { #category : #initialization }

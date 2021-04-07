@@ -20,6 +20,7 @@ LiteralMatcher >> literal: aLiteral [
 { #category : #accessing }
 LiteralMatcher >> match: aValue withContext: aContext [
 	| value |
+	aValue ifNil: [ ^ false ].
 	value := aValue isLiteral
 		ifTrue: [ aValue ]
 		ifFalse: [ aValue value ].

@@ -24,20 +24,30 @@ SequenceMatcher >> condition: aBlock [
 ]
 
 { #category : #accessing }
-SequenceMatcher >> match: aValue withContext: context [
+SequenceMatcher >> isSequenceMatcher [
+	^ true
+]
 
-	| sequenceSize sizeOfStarMatcher matcherArray starMatcher index newMatchers  res |
-	sequenceSize := aValue statements size.
+{ #category : #accessing }
+SequenceMatcher >> match: aValue withContext: context [
+	| sequenceSize sizeOfStarMatcher matcherArray starMatcher index newMatchers res collection |
+	aValue ifNil: [ ^ false ].
+	(aValue isCollection or: [ aValue isSequence or: [ aValue isBlock ] ]) ifFalse: [ ^ false ].
+	collection := aValue isCollection
+		ifTrue: [ aValue ]
+		ifFalse: [ aValue isSequence ifTrue: [aValue statements] ifFalse: [ aValue body statements ] ].
+	sequenceSize := collection size.
 	sizeOfStarMatcher := sequenceSize
 		- (matchers reject: [ :matcher | matcher isStarMatcher ]) size.
-	(sizeOfStarMatcher < 0) ifTrue: [ ^ false ].
+	sizeOfStarMatcher < 0
+		ifTrue: [ ^ false ].
 	starMatcher := matchers select: [ :matcher | matcher isStarMatcher ].
 	starMatcher
-		ifEmpty: [
-			sequenceSize ~= matchers size ifTrue: [ ^ false ].
+		ifEmpty: [ sequenceSize ~= matchers size
+				ifTrue: [ ^ false ].
 			res := (1 to: sequenceSize)
 				allSatisfy:
-					[ :i | (matchers at: i) match: (aValue statements at: i) withContext: context ].
+					[ :i | (matchers at: i) match: (collection at: i) withContext: context ].
 			res
 				and: [ condition
 						ifNotNil: [ ^ condition valueWithArgumentsDictionary: context ] ].
@@ -50,15 +60,17 @@ SequenceMatcher >> match: aValue withContext: context [
 		copyReplaceFrom: index
 		to: index
 		with: matcherArray.
-	sequenceSize ~= newMatchers size ifTrue: [ ^ false ].
+	sequenceSize ~= newMatchers size
+		ifTrue: [ ^ false ].
 	res := (1 to: sequenceSize)
-				allSatisfy:
-					[ :i | (newMatchers at: i) match: (aValue statements at: i) withContext: context ].
-			res
-				and: [ condition
-						ifNotNil: [ ^ condition valueWithArgumentsDictionary: context ] ].
-			^ res
-
+		allSatisfy: [ :i | 
+			(newMatchers at: i)
+				match: (collection at: i)
+				withContext: context ].
+	res
+		and: [ condition
+				ifNotNil: [ ^ condition valueWithArgumentsDictionary: context ] ].
+	^ res
 ]
 
 { #category : #accessing }

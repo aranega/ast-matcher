@@ -19,8 +19,14 @@ NodeMatcher >> condition: anObject [
 ]
 
 { #category : #accessing }
+NodeMatcher >> isNodeMatcher [
+	^ true
+]
+
+{ #category : #accessing }
 NodeMatcher >> match: aValue withContext: aContext [
 	| node |
+	aValue ifNil: [ ^ false ].
 	node := aContext
 		at: name
 		ifAbsent: [ aContext at: name put: aValue.
@@ -28,7 +34,7 @@ NodeMatcher >> match: aValue withContext: aContext [
 				ifNotNil: [ ^ condition valueWithArgumentsDictionary: aContext ].
 			^ true ].
 	condition
-				ifNotNil: [ ^ condition valueWithArgumentsDictionary: aContext ].
+		ifNotNil: [ ^ condition valueWithArgumentsDictionary: aContext ].
 	^ node = aValue
 ]
 

@@ -26,6 +26,7 @@ ArrayMatcher >> condition: aBlock [
 { #category : #accessing }
 ArrayMatcher >> match: aValue withContext: context [
 	| sequenceSize sizeOfStarMatcher matcherArray starMatcher index newMatchers res |
+	aValue ifNil: [ ^ false ].
 	sequenceSize := aValue value size.
 	sizeOfStarMatcher := sequenceSize
 		- (matchers reject: [ :matcher | matcher isStarMatcher ]) size.
@@ -33,8 +34,8 @@ ArrayMatcher >> match: aValue withContext: context [
 		ifTrue: [ ^ false ].
 	starMatcher := matchers select: [ :matcher | matcher isStarMatcher ].
 	starMatcher
-		ifEmpty: [ 
-			sequenceSize ~= matchers size ifTrue: [ ^ false ].
+		ifEmpty: [ sequenceSize ~= matchers size
+				ifTrue: [ ^ false ].
 			res := (1 to: sequenceSize)
 				allSatisfy:
 					[ :i | (matchers at: i) match: (aValue value at: i) withContext: context ].
@@ -50,7 +51,8 @@ ArrayMatcher >> match: aValue withContext: context [
 		copyReplaceFrom: index
 		to: index
 		with: matcherArray.
-	sequenceSize ~= newMatchers size ifTrue: [ ^ false ].
+	sequenceSize ~= newMatchers size
+		ifTrue: [ ^ false ].
 	res := (1 to: sequenceSize)
 		allSatisfy:
 			[ :i | (newMatchers at: i) match: (aValue value at: i) withContext: context ].

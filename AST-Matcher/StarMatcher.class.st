@@ -26,9 +26,9 @@ StarMatcher >> isStarMatcher [
 { #category : #accessing }
 StarMatcher >> match: aValue withContext: context [
 	| node |
+	aValue ifNil: [ ^ false ].
 	node := context at: name ifAbsentPut: [ OrderedCollection new ].
 	node add: aValue.
-	
 	^ true
 ]
 

@@ -82,13 +82,12 @@ MatcherVisitor >> visitReturnNode: aReturnNode [
 
 { #category : #visiting }
 MatcherVisitor >> visitSequenceNode: aSequenceNode [
-	"^ aSequenceNode statements
-		collect: [ :each | each acceptVisitor: self ]"
-
+	aSequenceNode statements ifEmpty: [ ^ EmptySequenceMatcher new ].
 	^ (SequenceMatcher
 		matchers:
 			(aSequenceNode statements
-				collect: [ :each | each acceptVisitor: self ])) condition: condition
+				collect: [ :each | each acceptVisitor: self ]))
+		condition: condition
 ]
 
 { #category : #visiting }

@@ -14,7 +14,9 @@ ReturnMatcher class >> with: aMatcher [
 
 { #category : #accessing }
 ReturnMatcher >> match: aValue withContext: aContext [
-	^ aValue isReturn and: [ value match: aValue value withContext: aContext ]
+aValue ifNil: [ ^ false ].
+	^ aValue isReturn
+		and: [ value match: aValue value withContext: aContext ]
 ]
 
 { #category : #accessing }

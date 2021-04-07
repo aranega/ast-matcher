@@ -15,6 +15,7 @@ SymbolMatcher class >> v: aSymbol [
 { #category : #accessing }
 SymbolMatcher >> match: aValue withContext: aContext [
 	| value |
+	aValue ifNil: [ ^ false ].
 	value := aValue isSymbol
 		ifTrue: [ aValue ]
 		ifFalse: [ aValue value ].

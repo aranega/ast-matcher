@@ -11,5 +11,5 @@ DiscardMatcher >> initialize [
 
 { #category : #initialization }
 DiscardMatcher >> match: aValue withContext: aContext [
-	^ true
+	^ aValue isNotNil
 ]

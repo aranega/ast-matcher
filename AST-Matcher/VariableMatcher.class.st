@@ -14,6 +14,7 @@ VariableMatcher class >> v: aSymbol [
 
 { #category : #accessing }
 VariableMatcher >> match: aValue withContext: aContext [
+aValue ifNil: [ ^ false ].
 	^ aValue isVariable and: [ aValue name = matchValue ]
 ]
 

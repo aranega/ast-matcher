@@ -25,6 +25,7 @@ BinaryMessageMatcher >> left: aMatcher [
 
 { #category : #'key matching' }
 BinaryMessageMatcher >> match: aValue withContext: aContext [
+aValue ifNil: [ ^ false ].
 	^ aValue class = RBMessageNode
 		and: [ aValue isBinary
 				and: [ (operator match: aValue selector withContext: aContext)
