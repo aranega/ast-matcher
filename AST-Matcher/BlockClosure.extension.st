@@ -6,6 +6,11 @@ BlockClosure >> => aProduction [
 ]
 
 { #category : #'*AST-Matcher' }
+BlockClosure >> if: conditionBlock [
+	^ self matcherWith: conditionBlock 
+]
+
+{ #category : #'*AST-Matcher' }
 BlockClosure >> matcher [
 	^ self matcherWith: nil
 ]
