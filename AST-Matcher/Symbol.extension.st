@@ -8,6 +8,8 @@ Symbol >> asMatcher [
 		ifTrue: [ ^ StarMatcher name: self allButFirst asSymbol ].
 	self = #@%
 		ifTrue: [ ^ DiscardMatcher new ].
+	self = #'%debug'
+		ifTrue: [ ^ DebugMatcher new ].
 	self = #_
 		ifTrue: [ ^ DiscardMatcher new ].
 	self first = $_

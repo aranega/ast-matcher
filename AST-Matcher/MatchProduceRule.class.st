@@ -46,7 +46,14 @@ MatchProduceRule >> matcher: aMatcher [
 
 { #category : #accessing }
 MatchProduceRule >> next: aMatchProduceRule [
-	nextRule := aMatchProduceRule
+	nextRule := aMatchProduceRule.
+	^ aMatchProduceRule
+]
+
+{ #category : #accessing }
+MatchProduceRule >> oneInstruction [
+	matcher := matcher at: 1.
+	
 ]
 
 { #category : #accessing }

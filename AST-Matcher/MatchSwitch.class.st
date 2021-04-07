@@ -25,6 +25,14 @@ MatchSwitch >> execute [
 ]
 
 { #category : #accessing }
+MatchSwitch >> imatch: aMPRule [
+	first
+		ifNil: [ first := last := aMPRule oneInstruction.
+			^ self ].
+	last := (last next: aMPRule) oneInstruction
+]
+
+{ #category : #accessing }
 MatchSwitch >> match: aMPRule [
 	first
 		ifNil: [ first := last := aMPRule.
